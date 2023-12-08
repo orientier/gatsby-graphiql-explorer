@@ -7,6 +7,7 @@ import { GraphiQL } from "graphiql"
 import { getIntrospectionQuery } from "graphql"
 import { useExplorerPlugin } from "@graphiql/plugin-explorer"
 import { useExporterPlugin } from "@graphiql/plugin-code-exporter"
+import { TooltipProvider } from "@radix-ui/react-tooltip"
 
 import { snippets } from "./code-exporter/snippets.js"
 import { Logo } from "./logo.jsx"
@@ -155,27 +156,29 @@ const App = ({ initialExternalFragments }) => {
   }
 
   return (
-    <GraphiQL
-      fetcher={fetcher}
-      query={query}
-      variables={parameters.variables}
-      headers={parameters.headers}
-      onEditQuery={query => {
-        setQuery(query)
-        onEditQuery(query)
-      }}
-      onEditVariables={onEditVariables}
-      onEditOperationName={onEditOperationName}
-      onEditHeaders={onEditHeaders}
-      onTabChange={onTabChange}
-      toolbar={{
-        additionalContent: refreshState.enableRefresh && (
-          <RefreshDataSourceButton onClick={refreshExternalDataSource} />
-        ),
-      }}
-      externalFragments={externalFragments}
-      plugins={[explorerPlugin, exporterPlugin]}
-    />
+    <TooltipProvider>
+      <GraphiQL
+        fetcher={fetcher}
+        query={query}
+        variables={parameters.variables}
+        headers={parameters.headers}
+        onEditQuery={query => {
+          setQuery(query)
+          onEditQuery(query)
+        }}
+        onEditVariables={onEditVariables}
+        onEditOperationName={onEditOperationName}
+        onEditHeaders={onEditHeaders}
+        onTabChange={onTabChange}
+        toolbar={{
+          additionalContent: refreshState.enableRefresh && (
+            <RefreshDataSourceButton onClick={refreshExternalDataSource} />
+          ),
+        }}
+        externalFragments={externalFragments}
+        plugins={[explorerPlugin, exporterPlugin]}
+      />
+    </TooltipProvider>
   )
 }
 
